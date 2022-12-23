@@ -1,14 +1,36 @@
 #!/bin/bash
 
-# This script sets up the lingua franca environment;
+# This script sets up the lingua franca environment; right now, it only works on Ubuntu.
 # it will use the nightly build of lingua franca, unless the second argument
 # is "stable" where it will use the stable build, or "dev" where it will pull from the master branch and build it.
 
 set -euxo pipefail
 
+# Check if running Ubuntu; the whole script requires apt + an Ubuntu distro name (for cmake) to properly run.
+DISTRIB_ID=$(lsb_release -is)
+if [ -z "$DISTRIB_ID" || "$DISTRIB_ID" != "Ubuntu" ]; then
+    echo "This script can only run on Ubuntu, but got distribution ID ${DISTRIB_ID}." 1>&2;
+    exit 1
+fi
+
 # Install dependencies
 sudo apt update
+## Setup C, C++
+sudo apt install --assume-yes build-essential
+# Install latest CMake; see https://apt.kitware.com
+DISTRIB_CODENAME=$(lsb_release -cs)
+if [ -n "$DISTRIB_CODENAME" ]; then
+    sudo apt install --assume-yes gpg wget
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+    echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ ${DISTRIB_CODENAME} main" | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+    sudo apt update && sudo apt install --assume-yes cmake
+fi
+## Setup Python
+sudo apt install --assume-yes python3 python3-dev python3-pip
+python3 -m pip install --exists-action i setuptools
+## Setup Typescript
 npm install -g typescript
+## Setup Rust
 sudo apt install --assume-yes rustc
 
 RELEASE_BUILD="nightly"
