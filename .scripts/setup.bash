@@ -35,6 +35,7 @@ sudo apt install --assume-yes rustc
 
 RELEASE_BUILD="nightly"
 EXAMPLE=1
+DEPENDENCIES_ONLY=0
 
 for arg in "$@"; do
     shift
@@ -48,7 +49,7 @@ done
 
 # With GitPod, we use .gitpod.yml to set up LF runtime and examples; this allows faster speed.
 # Also good for people who want to do everything themselves!
-if [ -n $DEPENDENCIES_ONLY ]; then
+if [ $DEPENDENCIES_ONLY == 1 ]; then
     exit 0
 fi
 

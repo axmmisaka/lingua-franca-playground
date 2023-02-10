@@ -1,7 +1,7 @@
 ## Example is handled separately in GitPod for faster initialisation.
 tasks:
   - name: Setup LF
-    init: bash ./.scripts/setup.bash ${RELEASE_BUILD}
+    init: bash ./.scripts/setup.bash ${RELEASE_BUILD} --no-example
   - name: Setup Example
     init: if [ -z "$NO_EXAMPLE" ]; then git clone https://github.com/lf-lang/examples-lingua-franca.git examples --branch main; fi
 ## Dirty hack, https://github.com/gitpod-io/gitpod/issues/9275#issuecomment-1098275529
