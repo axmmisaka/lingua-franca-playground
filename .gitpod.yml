@@ -1,0 +1,14 @@
+image: ubuntu:latest
+## Example is handled separately in GitPod for faster initialisation.
+tasks:
+  - name: Setup LF
+    init: bash ./.scripts/setup.bash ${RELEASE_BUILD}
+  - name: Setup Example
+    init: if [ -z "$NO_EXAMPLE" ]; then git clone https://github.com/lf-lang/examples-lingua-franca.git examples --branch main; fi
+## Dirty hack, https://github.com/gitpod-io/gitpod/issues/9275#issuecomment-1098275529
+  - name: Setup env
+    before: printf 'export PATH="%s:$PATH"; export LF_PATH="%s";\n' "${GITPOD_REPO_ROOT}/lingua-franca/bin" "${GITPOD_REPO_ROOT}/lingua-franca/" >> $HOME/.bashrc && exit
+
+vscode: 
+  extensions:
+    - lf-lang.vscode-lingua-franca
