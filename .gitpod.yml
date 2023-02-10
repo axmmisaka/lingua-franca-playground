@@ -1,4 +1,3 @@
-image: ubuntu:latest
 ## Example is handled separately in GitPod for faster initialisation.
 tasks:
   - name: Setup LF
