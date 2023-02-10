@@ -35,15 +35,23 @@ sudo apt install --assume-yes rustc
 
 RELEASE_BUILD="nightly"
 EXAMPLE=1
+DEPENDENCIES_ONLY=0
 
 for arg in "$@"; do
     shift
     case "$arg" in
         'dev') RELEASE_BUILD="dev";;
         'stable') RELEASE_BUILD="stable";;
-        '--no-example') EXAMPLE=0
+        '--no-example') EXAMPLE=0;;
+        '--dependencies-only') DEPENDENCIES_ONLY=1
     esac
 done
+
+# With GitPod, we use .gitpod.yml to set up LF runtime and examples; this allows faster speed.
+# Also good for people who want to do everything themselves!
+if [ $DEPENDENCIES_ONLY ]; then
+    exit 0
+fi
 
 # Use case here for maximum flexibility if we were to change later
 case "$RELEASE_BUILD" in
