@@ -4,7 +4,7 @@ tasks:
     before: > 
       bash ./.scripts/setup.bash ${RELEASE_BUILD} --dependencies-only
       # See https://github.com/sdkman/sdkman-cli/issues/101#issuecomment-155938383
-      sdk install java jdk-20.0.1-open < /dev/null
+      sdk install java 20.0.1-open < /dev/null
     init: >
       case "$RELEASE_BUILD" in
         'dev') 
