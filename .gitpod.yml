@@ -12,7 +12,8 @@ tasks:
             cd .. 
         ;;
         *) 
-            ./.scripts/get-lf-executable $RELEASE_BUILD
+            # GitPod's python3 is not /usr/bin/python3......
+            python3 ./.scripts/get-lf-executable $RELEASE_BUILD
             mkdir lingua-franca
             # While what we have here is tar.gz, lf release bot appear to have a bug and did not gunzip it.
             # Therefore `tar -xzf` will fail but `tar -xf` will work.
