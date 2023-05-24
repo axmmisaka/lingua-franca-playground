@@ -29,7 +29,7 @@ fi
 sudo apt install --assume-yes openjdk-17-jre openjdk-17-jdk
 ## Setup Python
 sudo apt install --assume-yes python3 python3-dev python3-pip
-python3 -m pip install --exists-action i setuptools
+python3 -m pip install --exists-action i setuptools requests
 ## Setup Typescript
 npm install -g typescript
 ## Setup Rust
