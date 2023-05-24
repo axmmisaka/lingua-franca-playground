@@ -1,7 +1,7 @@
 ## Example is handled separately in GitPod for faster initialisation.
 tasks:
   - name: Setup LF
-    before: >
+    before: |
       bash ./.scripts/setup.bash ${RELEASE_BUILD} --dependencies-only
       # See https://github.com/sdkman/sdkman-cli/issues/101#issuecomment-155938383
       sdk install java 20.0.1-open < /dev/null
