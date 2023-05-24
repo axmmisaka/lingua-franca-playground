@@ -24,6 +24,7 @@ tasks:
       esac
   - name: Setup Example
     init: if [ -z "$NO_EXAMPLE" ]; then git clone https://github.com/lf-lang/examples-lingua-franca.git examples --branch main; fi
+    command: echo -e "\033[0;31m Please wait until the terminal on the left finish running everything, then enjoy Lingua Franca in a newly-opened terminal to ensure environment variables are correctly set."
     openMode: split-right
 ## Dirty hack, https://github.com/gitpod-io/gitpod/issues/9275#issuecomment-1098275529
   - name: Setup env
