@@ -1,7 +1,7 @@
 image:
   file: .gitpod-base.Dockerfile
 
-## Example is handled separately in GitPod for faster initialisation.
+## Example is handled separately in GitPod for faster initialization.
 tasks:
   - name: Setup LF
     init: >
