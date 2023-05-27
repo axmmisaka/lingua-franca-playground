@@ -25,9 +25,11 @@ if [ -n "$DISTRIB_CODENAME" ]; then
     echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ ${DISTRIB_CODENAME} main" | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
     sudo apt update && sudo apt install --assume-yes cmake
 fi
+## Setup Java
+sudo apt install --assume-yes openjdk-17-jre openjdk-17-jdk
 ## Setup Python
 sudo apt install --assume-yes python3 python3-dev python3-pip
-python3 -m pip install --exists-action i setuptools
+python3 -m pip install --exists-action i requests setuptools 
 ## Setup Typescript
 npm install -g typescript
 ## Setup Rust
@@ -35,15 +37,23 @@ sudo apt install --assume-yes rustc
 
 RELEASE_BUILD="nightly"
 EXAMPLE=1
+DEPENDENCIES_ONLY=0
 
 for arg in "$@"; do
     shift
     case "$arg" in
         'dev') RELEASE_BUILD="dev";;
         'stable') RELEASE_BUILD="stable";;
-        '--no-example') EXAMPLE=0
+        '--no-example') EXAMPLE=0;;
+        '--dependencies-only') DEPENDENCIES_ONLY=1
     esac
 done
+
+# With GitPod, we use .gitpod.yml to set up LF runtime and examples; this allows faster speed.
+# Also good for people who want to do everything themselves!
+if [ $DEPENDENCIES_ONLY == 1 ]; then
+    exit 0
+fi
 
 # Use case here for maximum flexibility if we were to change later
 case "$RELEASE_BUILD" in
@@ -55,7 +65,7 @@ case "$RELEASE_BUILD" in
         cd .. 
     ;;
     *) 
-        ./.scripts/get-lf-executable $RELEASE_BUILD
+        python3 ./.scripts/get-lf-executable $RELEASE_BUILD
         mkdir lingua-franca
         # While what we have here is tar.gz, lf release bot appear to have a bug and did not gunzip it.
         # Therefore `tar -xzf` will fail but `tar -xf` will work.

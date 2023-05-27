@@ -1,0 +1,37 @@
+image:
+  file: .gitpod-base.Dockerfile
+
+## Example is handled separately in GitPod for faster initialization.
+tasks:
+  - name: Setup LF
+    init: >
+      case "$RELEASE_BUILD" in
+        'dev') 
+            git clone https://github.com/lf-lang/lingua-franca.git --branch master --depth 1
+            cd lingua-franca
+            git submodule update --init --recursive
+            ./gradlew buildAll
+            cd .. 
+        ;;
+        *) 
+            # GitPod's python3 is not /usr/bin/python3......
+            python3 ./.scripts/get-lf-executable $RELEASE_BUILD
+            mkdir lingua-franca
+            # While what we have here is tar.gz, lf release bot appear to have a bug and did not gunzip it.
+            # Therefore `tar -xzf` will fail but `tar -xf` will work.
+            # Here, we ignore the actual build name (the original name of the file and the original first directory). 
+            tar -xf lf.tar.gz -C lingua-franca --strip-components 1
+            rm lf.tar.gz
+        ;;
+      esac && exit
+  - name: Setup Example
+    init: if [ -z "$NO_EXAMPLE" ]; then git clone https://github.com/lf-lang/examples-lingua-franca.git examples --branch main; fi
+    command: exit
+## Dirty hack, https://github.com/gitpod-io/gitpod/issues/9275#issuecomment-1098275529
+  - name: Setup env
+    before: >
+      printf 'export PATH="%s:$PATH"; export LF_PATH="%s";\n' "${GITPOD_REPO_ROOT}/lingua-franca/bin" "${GITPOD_REPO_ROOT}/lingua-franca/" >> $HOME/.bashrc && exit
+
+vscode: 
+  extensions:
+    - lf-lang.vscode-lingua-franca
