@@ -25,11 +25,6 @@ if [ -n "$DISTRIB_CODENAME" ]; then
     echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ ${DISTRIB_CODENAME} main" | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
     sudo apt update && sudo apt install --assume-yes cmake
 fi
-## Setup Java
-curl -s "https://get.sdkman.io" | bash
-# This might fail if SDKMAN was already installed elsewhere. We use ||: to ignore its failure; if it is not installed properly, next line will also fail
-. $HOME/.sdkman/bin/sdkman-init.sh || :
-sdk install java 20.0.1-open < /dev/null
 ## Setup Python
 sudo apt install --assume-yes python3 python3-dev python3-pip
 python3 -m pip install --exists-action i requests setuptools 
