@@ -25,8 +25,6 @@ if [ -n "$DISTRIB_CODENAME" ]; then
     echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ ${DISTRIB_CODENAME} main" | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
     sudo apt update && sudo apt install --assume-yes cmake
 fi
-## Setup Java
-sudo apt install --assume-yes openjdk-17-jre openjdk-17-jdk
 ## Setup Python
 sudo apt install --assume-yes python3 python3-dev python3-pip
 python3 -m pip install --exists-action i requests setuptools 

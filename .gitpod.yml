@@ -1,5 +1,5 @@
 image:
-  file: .gitpod-base.Dockerfile
+  file: dockerfiles/gitpod-base.Dockerfile
 
 ## Example is handled separately in GitPod for faster initialization.
 tasks:

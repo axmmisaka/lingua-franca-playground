@@ -1,8 +1,13 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "build": {
+      "dockerfile": "../../dockerfiles/github-codespace.Dockerfile",
+      // Needed to access .scripts directory, see https://containers.dev/implementors/json_reference/#image-specific
+      "context": "../.."
+    },
     "hostRequirements": {
       "cpus": 1
     },
+    "initializeCommand": "docker system prune --all --force",
     "waitFor": "postCreateCommand",
     "updateContentCommand": "",
     "postCreateCommand": "bash ./.scripts/setup.bash nightly",

@@ -1,5 +1,9 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "build": {
+      "dockerfile": "../../dockerfiles/github-codespace.Dockerfile",
+      // Needed to access .scripts directory, see https://containers.dev/implementors/json_reference/#image-specific
+      "context": "../.."
+    },
     "hostRequirements": {
       "cpus": 1
     },
