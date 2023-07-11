@@ -9,7 +9,10 @@
     },
     "waitFor": "postCreateCommand",
     "updateContentCommand": "",
-    "postCreateCommand": "bash ./.scripts/setup.bash stable",
+    "postCreateCommand": {
+      "setup-lf": "bash ./.scripts/setup-user-env.bash && bash ./.scripts/setup-lf.bash stable",
+      "setup-examples": "git clone https://github.com/lf-lang/examples-lingua-franca.git examples --branch main" 
+    }, 
     "workspaceFolder": "/workspaces/lingua-franca-playground",
     "remoteEnv": {
         // Unsure if this is a good idea, as other people might fork this and change name
