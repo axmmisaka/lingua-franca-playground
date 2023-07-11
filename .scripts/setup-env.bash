@@ -25,23 +25,34 @@ python3 -m pip install --upgrade pip
 # latest CMake; see https://www.kitware.com/cmake-python-wheels/ https://askubuntu.com/a/1070770
 python3 -m pip install --exists-action i requests setuptools cmake
 
-if (command -v "npm" &> /dev/null) ; then
-    echo "npm found"
-    npm install -g typescript
-else
-    echo "npm not found, skipping TS installation. Recommend installing nvm as user."
-fi
+INSTALL_USER_DEPENDENCIES=false
 
-# Check if SDK is installed like what SDKMAN installer does
-set +ux # GitPod will fail if this is not set. TODO: Investigate
-if [ -n "${SDKMAN_DIR:-}" ] ; then
-    echo "SDKMAN found."
-    # As SDKMAN is based off shell, enabling u/x will flood output and cause unexpected behaviour
-    set +ux
-    \. "$SDKMAN_DIR/bin/sdkman-init.sh"
-    sdk install java 17.0.7-ms <<< "y"
-    sdk use java 17.0.7-ms
-    set -ux
-else
-    echo "SDKMAN not found, skipping Java installation. Recommend installing SDKMAN as user."
+for arg in "$@"; do
+    shift
+    case "$arg" in
+        '--install-user-dependencies') INSTALL_USER_DEPENDENCIES=true;;
+    esac
+done
+
+if [ "$INSTALL_USER_DEPENDENCIES" = true ]; then
+    if (command -v "npm" &> /dev/null) ; then
+        echo "npm found"
+        npm install -g typescript
+    else
+        echo "npm not found, skipping TS installation. Recommend installing nvm as user."
+    fi
+
+    # Check if SDK is installed like what SDKMAN installer does
+    set +ux # GitPod will fail if this is not set. TODO: Investigate
+    if [ -n "${SDKMAN_DIR:-""}" ] ; then
+        echo "SDKMAN found."
+        # As SDKMAN is based off shell, enabling u/x will flood output and cause unexpected behaviour
+        set +ux
+        \. "$SDKMAN_DIR/bin/sdkman-init.sh"
+        sdk install java 17.0.7-ms <<< "y"
+        sdk use java 17.0.7-ms
+        set -ux
+    else
+        echo "SDKMAN not found, skipping Java installation. Recommend installing SDKMAN as user."
+    fi
 fi
