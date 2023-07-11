@@ -8,9 +8,8 @@
       "cpus": 1
     },
     // Uncomment this line if GitHub displays no enough space
-    // "initializeCommand": "docker system prune --all --force",
+    "initializeCommand": "docker system prune --all --force",
     "waitFor": "postCreateCommand",
-    "onCreateCommand": "bash ./.scripts/setup-env.bash",
     "updateContentCommand": "",
     "postCreateCommand": {
       "setup-lf": "bash -i ./.scripts/setup-user-env.bash && bash ./.scripts/setup-lf.bash nightly",
