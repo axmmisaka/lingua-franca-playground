@@ -7,10 +7,11 @@
     "hostRequirements": {
       "cpus": 1
     },
+    // Uncomment this line if GitHub displays no enough space
     "waitFor": "postCreateCommand",
     "updateContentCommand": "",
     "postCreateCommand": {
-      "setup-lf": "bash ./.scripts/setup-user-env.bash && bash ./.scripts/setup-lf.bash stable",
+      "setup-lf": "bash -i ./.scripts/setup-user-env.bash && bash ./.scripts/setup-lf.bash stable",
       "setup-examples": "git clone https://github.com/lf-lang/examples-lingua-franca.git examples --branch main" 
     }, 
     "workspaceFolder": "/workspaces/lingua-franca-playground",

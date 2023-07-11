@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 COPY .scripts .scripts
 RUN bash ./.scripts/setup-env.bash 

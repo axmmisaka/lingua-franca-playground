@@ -7,11 +7,11 @@
     "hostRequirements": {
       "cpus": 1
     },
-    "initializeCommand": "docker system prune --all --force",
+    // Uncomment this line if GitHub displays no enough space
     "waitFor": "postCreateCommand",
     "updateContentCommand": "",
     "postCreateCommand": {
-      "setup-lf": "bash ./.scripts/setup-user-env.bash && bash ./.scripts/setup-lf.bash nightly",
+      "setup-lf": "bash -i ./.scripts/setup-user-env.bash && bash ./.scripts/setup-lf.bash nightly",
       "setup-examples": "git clone https://github.com/lf-lang/examples-lingua-franca.git examples --branch main" 
     }, 
     "workspaceFolder": "/workspaces/lingua-franca-playground",

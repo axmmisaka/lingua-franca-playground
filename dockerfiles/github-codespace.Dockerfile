@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/devcontainers/universal:focal
+# While universal:focal is also okay to use, it lacks libpython3.10-dev, but uses python3.10 by default.
+FROM mcr.microsoft.com/devcontainers/base:jammy
 
 COPY .scripts .scripts
 RUN bash ./.scripts/setup-env.bash
