@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/universal:2-focal
+FROM mcr.microsoft.com/devcontainers/base:jammy
 
 COPY .scripts .scripts
 RUN bash ./.scripts/setup-env.bash
