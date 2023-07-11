@@ -33,7 +33,7 @@ else
 fi
 
 # Check if SDK is installed like what SDKMAN installer does
-
+set +ux # GitPod will fail if this is not set. TODO: Investigate
 if [ -n "${SDKMAN_DIR:-}" ] ; then
     echo "SDKMAN found."
     # As SDKMAN is based off shell, enabling u/x will flood output and cause unexpected behaviour
