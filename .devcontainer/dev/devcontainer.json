@@ -10,7 +10,7 @@
     "waitFor": "postCreateCommand",
     "updateContentCommand": "",
     "postCreateCommand": [
-      "./.scripts/setup-user-env.bash && ./.scripts/setup-lf.bash dev", 
+      "bash ./.scripts/setup-user-env.bash && bash ./.scripts/setup-lf.bash dev", 
       "git clone https://github.com/lf-lang/examples-lingua-franca.git examples --branch main"  
     ],
     "workspaceFolder": "/workspaces/lingua-franca-playground",
