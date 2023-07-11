@@ -1,46 +1,53 @@
-#!/bin/bash
+#!/bin/bash -i
 # This script specifically detects and set up nvm and SDKMAN in bash environment, and install
 # needed components for LF
-# TODO: remove some nvm checks and simply use interactive shell
 set -euxo pipefail
 
 # Check if SDK is installed like what SDKMAN installer does
-if [ -z "${SDKMAN_DIR:-}" ] ; then
-    echo "SDKMAN not found. Installing"
-    curl -s "https://get.sdkman.io" | bash
-    export SDKMAN_DIR="$HOME/.sdkman"
-fi
+install_sdk(){
+    if (command -v "sdk" &> /dev/null) ; then
+        echo "sdk found in ENV"
+    elif [ -n "${SDKMAN_DIR:-}" ] ; then
+        echo "sdk found in SDKMAN_DIR, sourcing......"
+        set +ux
+        \. "$SDKMAN_DIR/bin/sdkman-init.sh"
+        set -ux
+    else
+        echo "SDKMAN not found. Installing"
+        set +ux
+        curl -s "https://get.sdkman.io" | bash
+        set -ux
+        export SDKMAN_DIR="$HOME/.sdkman"
+    fi
 
-set +ux
-\. "$SDKMAN_DIR/bin/sdkman-init.sh"
-sdk install java 17.0.7-ms <<< "y"
-sdk use java 17.0.7-ms
-set -ux
-
-
-# Check if nvm is installed
-NVM_INSTALLED=false
-if [ -d "${HOME}/.nvm/.git" ]; then 
-    NVM_INSTALLED=true;
-    export NVM_DIR="${HOME}/.nvm"
-fi
-# Check if nvm is in .bashrc
-NVM_BASHRC_COMMAND=$(grep -e "export NVM_DIR" "$HOME/.bashrc")
-if [ -n "${NVM_BASHRC_COMMAND}" ]; then
-    NVM_INSTALLED=true
     set +ux
-    eval "${NVM_BASHRC_COMMAND}"
+    sdk install java 17.0.7-ms <<< "y"
+    sdk use java 17.0.7-ms
     set -ux
-fi
-if [ "$NVM_INSTALLED" = false ]; then
+}
+
+install_nvm(){
+    if (command -v "nvm" &> /dev/null) ; then
+        echo "nvm found in ENV"
+    elif [ -n "${NVM_DIR:-}" ] ; then
+        echo "nvm found in NVM_DIR, sourcing......"
+        set +ux
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        set -ux
+    else 
+        echo "nvm not found. Installing"
+        set +ux
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+        export NVM_DIR="${HOME}/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        set -ux
+        echo "$NVM_DIR/nvm.sh"
+    fi
+
     set +ux
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    set -ux
-    export NVM_DIR="${HOME}/.nvm"
+    nvm install --lts
+    nvm use --lts
+    npm install --global typescript pnpm
+}
 
-set +ux
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-nvm install --lts
-nvm use --lts
-npm install --global typescript pnpm
-
+install_sdk & install_nvm
