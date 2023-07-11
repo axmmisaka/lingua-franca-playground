@@ -11,9 +11,9 @@ if [ ! -f "/etc/debian_version" ]; then
 fi
 
 # Install dependencies
-sudo apt update
+sudo apt-get update
 ## Setup C, C++, Python, Rust, protobuf, gRPC
-sudo apt install --assume-yes \
+sudo apt-get install --assume-yes \
     build-essential \
     python3 python3-dev python3-pip \
     rustc \
@@ -33,9 +33,12 @@ else
 fi
 
 # Check if SDK is installed like what SDKMAN installer does
-if [ -n "$SDKMAN_DIR" ] ; then
+
+
+if [ -n "${SDKMAN_DIR-}" ] ; then
     echo "SDKMAN found."
-    set +ux # As SDKMAN is based off shell, enabling u/x will flood output and cause unexpected behaviour
+    # As SDKMAN is based off shell, enabling u/x will flood output and cause unexpected behaviour
+    set +ux
     \. "$SDKMAN_DIR/bin/sdkman-init.sh"
     sdk install java 17.0.7-ms <<< "y"
     sdk use java 17.0.7-ms

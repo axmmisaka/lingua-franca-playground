@@ -1,10 +1,11 @@
 #!/bin/bash
 # This script specifically detects and set up nvm and SDKMAN in bash environment, and install
 # needed components for LF
+# TODO: remove some nvm checks and simply use interactive shell
 set -euxo pipefail
 
 # Check if SDK is installed like what SDKMAN installer does
-if [ -z "$SDKMAN_DIR" ] ; then
+if [ -z "${SDKMAN_DIR-}" ] ; then
     echo "SDKMAN not found. Installing"
     curl -s "https://get.sdkman.io" | bash
     export SDKMAN_DIR="$HOME/.sdkman"
