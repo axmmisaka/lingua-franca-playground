@@ -34,6 +34,6 @@ case "$RELEASE_BUILD" in
     ;;
 esac
 
-if [ $EXAMPLE ]; then
+if [ $EXAMPLE -eq 1 ] ; then
     git clone https://github.com/lf-lang/examples-lingua-franca.git examples --branch main
 fi
