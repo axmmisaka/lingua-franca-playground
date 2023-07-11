@@ -1,9 +1,5 @@
 {
-    "build": {
-      "dockerfile": "../../dockerfiles/github-codespace.Dockerfile",
-      // Needed to access .scripts directory, see https://containers.dev/implementors/json_reference/#image-specific
-      "context": "../.."
-    },
+    "image": "mcr.microsoft.com/devcontainers/universal:focal",
     "hostRequirements": {
       "cpus": 1
     },
